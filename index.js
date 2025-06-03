@@ -9,10 +9,11 @@ require('dotenv').config();
 const cors = require("cors");
 
 const corsOptions = {
-  origin: 'https://password-manager-frontend-psi.vercel.app', //  Must be a specific origin, not '*'
-  credentials: true,              // Allow cookies
+  origin: 'https://password-manager-frontend-psi.vercel.app',
+  credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization']
+  allowedHeaders: ['Content-Type', 'Authorization', 'Cookie', 'Set-Cookie'],
+  exposedHeaders: ['Set-Cookie']
 };
 
 const app = express();
