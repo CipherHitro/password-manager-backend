@@ -16,7 +16,7 @@ const corsOptions = {
 };
 
 const app = express();
-const port = process.env.PORT;
+const port = process.env.PORT || 2000;
 
 //Middlewares
 app.use(cors(corsOptions));
