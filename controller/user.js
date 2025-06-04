@@ -32,7 +32,6 @@ async function handleLogin(req, res) {
   const token = setUser(user);
 
   res.cookie("uid", token, {
-    httpOnly: true,
     secure: true,
     sameSite: "None",
     maxAge: 24 * 60 * 60 * 1000,
