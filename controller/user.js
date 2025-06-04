@@ -3,13 +3,13 @@ const bcrypt = require("bcryptjs");
 const { setUser } = require("../services/auth");
 
 async function handleSignup(req, res) {
-  const { fullname, email, password } = req.body;
+  const { fullName, email, password } = req.body;
 
   const salt = bcrypt.genSaltSync(10);
   const passHash = bcrypt.hashSync(password, salt);
 
   const user = await User.create({
-    fullname,
+    fullName,
     email,
     password: passHash,
   });
