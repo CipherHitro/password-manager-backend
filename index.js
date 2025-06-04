@@ -34,8 +34,8 @@ app.get("/", (req, res) => {
   res.send("Hello World!");
 });
 
-app.use("/api/password", restrictToLoggedinUser, passwordRoute);
-app.use("/api/user", userRoute);
+app.use("/password", restrictToLoggedinUser, passwordRoute);
+app.use("/user", userRoute);
 
 
 app.listen(port, () => {
