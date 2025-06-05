@@ -21,7 +21,7 @@ async function handleSignup(req, res) {
   }
 }
 async function handleLogin(req, res) {
-  const { email, password } = req.body;
+  const { email, password , rememberMe } = req.body;
   const user = await User.findOne({ email });
   if (!user) {
     return res.status(400).json({ message: "Invalid Credentials" });
@@ -38,7 +38,7 @@ async function handleLogin(req, res) {
     httpOnly: false,
     secure: true,
     sameSite: "Lax",
-    maxAge: 7 * 24 * 60 * 60 * 1000,
+    maxAge: rememberMe ? 7 * 24 * 60 * 60 * 1000 : 24 * 60 * 60 * 1000 
   });
 
   // Also send token in response for frontend use
