@@ -21,6 +21,8 @@ async function handleSignup(req, res) {
   }
 }
 async function handleLogin(req, res) {
+  console.log(req.body)
+  
   const { email, password , rememberMe } = req.body;
   const user = await User.findOne({ email });
   if (!user) {
