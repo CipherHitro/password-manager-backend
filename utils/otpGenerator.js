@@ -1,4 +1,4 @@
-
+// utils/otpGenerator.js
 const crypto = require('crypto');
 
 function generateOTP() {

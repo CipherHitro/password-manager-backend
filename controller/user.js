@@ -3,7 +3,7 @@ const bcrypt = require("bcryptjs");
 const { setUser } = require("../services/auth");
 const { generateOTP, generateSecureToken } = require("../utils/otpGenerator");
 const PasswordResetToken = require("../models/passwordResetToken");
-const { sendOTPEmail, testEmailConnection } = require('../utils/emailService')
+const { sendOTPEmail, testEmailConnection } = require("../utils/emailService");
 async function handleSignup(req, res) {
   const { fullName, email, password } = req.body;
 
@@ -34,7 +34,18 @@ async function handleLogin(req, res) {
   const token = setUser(user);
 
   // res.cookie('uid', token)
-  return res.status(200).json({ message: "Logged in successfully", token });
+  res.cookie("uid", token, {
+    httpOnly: false,
+    secure: true,
+    sameSite: "Lax",
+    maxAge: 7 * 24 * 60 * 60 * 1000,
+  });
+
+  // Also send token in response for frontend use
+   return res.status(200).json({
+    success: true,
+    token: token, // Frontend can use this if needed
+  });
 }
 
 async function handleForgotPassword(req, res) {
@@ -66,9 +77,9 @@ async function handleForgotPassword(req, res) {
     const otpHash = bcrypt.hashSync(otp, salt);
     // const test = await testEmailConnection();
     // console.log(test)
-    const isEmailSent = await sendOTPEmail(email,otp)
-    console.log(isEmailSent)
-    
+    const isEmailSent = await sendOTPEmail(email, otp);
+    console.log(isEmailSent);
+
     const result = await PasswordResetToken.create({
       email: email.toLowerCase(),
       otpHash: otpHash,
@@ -167,7 +178,7 @@ async function handleResetPassword(req, res) {
     const salt = bcrypt.genSaltSync(10);
     const passHash = bcrypt.hashSync(password, salt);
 
-    const user = await User.findOneAndUpdate({ email }, { password:passHash });
+    const user = await User.findOneAndUpdate({ email }, { password: passHash });
     if (!user) {
       return res.status(400).json({ message: "User not found" });
     }
