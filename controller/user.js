@@ -88,7 +88,6 @@ async function handleForgotPassword(req, res) {
 
     return res.status(200).json({
       message: "OTP sent to your email address. Please check your inbox.",
-      otp,
     });
   } catch (error) {
     console.error("Forgot password error:", error);
